@@ -1,3 +1,9 @@
+-- #############################
+-- ###### EJERCICIO DIA 2 ######
+-- #############################
+
+-- Creacion y uso de la BBDD "My Guitar Shop"
+
 CREATE DATABASE MyGuitarShop;
 
 USE MyGuitarShop;
@@ -311,18 +317,4 @@ INSERT INTO Administrators (AdminID, EmailAddress, Password, FirstName, LastName
 
 
 
--- Create a user named MGSUser
-
-
-
-/*
-
-GRANT SELECT, INSERT, UPDATE, DELETE
-
-ON *
-
-TO MGSUser@localhost
-
-IDENTIFIED BY 'pa55word';
-
-*/
+-- Creado por Oscar Fernando Arismendi C.C. 1*******32

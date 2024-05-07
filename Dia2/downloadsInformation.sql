@@ -1,3 +1,10 @@
+-- #############################
+-- ###### EJERCICIO DIA 2 ######
+-- #############################
+
+-- Creacion y uso de la BBDD "Downloads Information"
+
+
 CREATE DATABASE DownloadsInformation;
 
 USE DownloadsInformation;
@@ -43,3 +50,5 @@ INSERT INTO DOWNLOADS  VALUES
 (3, 'pdf1.pdf',"2023-04-28",3,3), 
 (4, 'notas.txt',"2023-04-29",4,4),
 (5, 'pdf2.pdf',"2023-04-30",5,5);
+
+-- Creado por Oscar Fernando Arismendi C.C. 1*******32

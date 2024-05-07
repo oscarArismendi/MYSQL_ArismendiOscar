@@ -1,3 +1,9 @@
+-- #############################
+-- ###### EJERCICIO DIA 1 ######
+-- #############################
+
+-- Creacion y uso de la BBDD "Parques del ministerio ambiental"
+
 CREATE DATABASE ParquesDelMinisterioAmbiental;
 
 USE ParquesDelMinisterioAmbiental;
@@ -146,3 +152,5 @@ CREATE TABLE entrada(
 	idParqueNatural int NOT NULL,
 	FOREIGN KEY (idParqueNatural) REFERENCES parqueNaturales(idParqueNatural)
 );
+
+-- Creado por Oscar Fernando Arismendi C.C. 1*******32
