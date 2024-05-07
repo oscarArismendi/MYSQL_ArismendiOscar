@@ -51,15 +51,16 @@ CREATE TABLE empleado(
 	apellido1 VARCHAR(50) NOT NULL,
 	apellido2 VARCHAR(50),
 	extension VARCHAR(10) NOT NULL,
-	email VARCHAR(100) NOT NULL,
+	email VARCHAR(100) NOT NULL,	
+	codigo_oficina VARCHAR(100),
 	codigo_jefe INT(11),
 	puesto VARCHAR(50),
-	codigo_oficina VARCHAR(100),
-	FOREIGN KEY (codigo_oficina) REFERENCES oficina(codigo_oficina);
+	FOREIGN KEY (codigo_oficina) REFERENCES oficina(codigo_oficina),
+	FOREIGN KEY (codigo_jefe) REFERENCES empleado(codigo_empleado)
 );
 
 -- Creacion tabla cliente
--- preguntas como poner una relacion entre values
+
 CREATE TABLE cliente(
 	codigo_cliente INT(11) PRIMARY KEY,
 	nombre_cliente VARCHAR(50) NOT NULL,
@@ -90,6 +91,27 @@ CREATE TABLE pedido(
 	FOREIGN KEY (codigo_cliente) REFERENCES cliente(codigo_cliente)
 );
 -- Creacion tabla detalle pedido (tabla intermedia)
+
+CREATE TABLE detalle_pedido(
+	codigo_pedido INT(11),
+	codigo_producto VARCHAR(15),
+	cantidad INT(11) NOT NULL,
+	precio_unidad DECIMAL(15,2) NOT NULL,
+	numero_linea SMALLINT(6) NOT NULL,
+	FOREIGN KEY(codigo_pedido) REFERENCES pedido(codigo_pedido),
+	FOREIGN KEY(codigo_producto) REFERENCES producto(codigo_producto)
+);
+
+-- creacion table pago
+CREATE TABLE pago(
+	codigo_cliente INT(11),
+	forma_pago VARCHAR(40) NOT NULL,
+	id_transaccion VARCHAR(50) PRIMARY KEY,
+	fecha_pago DATE NOT NULL,
+	total DECIMAL(15,2),
+	FOREIGN KEY (codigo_cliente) REFERENCES cliente(codigo_cliente)
+);
+
 
 
 
