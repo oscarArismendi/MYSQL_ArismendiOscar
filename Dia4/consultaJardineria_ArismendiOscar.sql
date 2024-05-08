@@ -37,3 +37,4 @@ SELECT DISTINCT estado  FROM pedido;
 
 -- Utilizando la función YEAR de MySQL.
 
+
