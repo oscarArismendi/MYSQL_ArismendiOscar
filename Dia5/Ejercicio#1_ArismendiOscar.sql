@@ -3,6 +3,7 @@
 -- #############################
 -- Basado en el archivo jardineria.png
 -- uso de la BBDD "jardineria"
+
 USE jardineria;
 
 -- Devuelve un listado con el código de oficina
@@ -97,15 +98,112 @@ ORDER  BY precio_venta DESC;
 
 -- Devuelve un listado con todos los clientes que sean de la ciudad de Madrid
 -- y cuyo representante de ventas tenga el código de empleado 11 o 30.
-SELECT * FROM cliente WHERE (pais = "Spain")
+SELECT * FROM cliente WHERE (ciudad = "Madrid")
 AND (codigo_empleado_rep_ventas = 11 OR codigo_empleado_rep_ventas = 30) ;
 
 -- Consultas multitabla (Composición interna)
 -- Resuelva todas las consultas mediante INNER JOIN y NATURAL JOIN
 
+-- Obtén un listado con el nombre de cada cliente y el nombre y apellido de su representante de ventas.
+
+SELECT cliente.nombre_cliente, empleado.nombre ,empleado.apellido1 ,empleado.apellido2  FROM cliente 
+INNER JOIN empleado
+ON cliente.codigo_empleado_rep_ventas = empleado.codigo_empleado ;
+
+-- Muestra el nombre de los clientes que hayan realizado pagos junto con el nombre de sus representantes de ventas.
+
+SELECT cliente.nombre_cliente, empleado.nombre AS nombreEmpleado, empleado.apellido1 AS primerApellidoEmpleado, empleado.apellido2 AS segundoApellidoEmpleado 
+FROM cliente 
+INNER JOIN empleado ON cliente.codigo_empleado_rep_ventas = empleado.codigo_empleado 
+INNER JOIN pago ON cliente.codigo_cliente = pago.codigo_cliente;
 
 
+-- Devuelve el nombre de los clientes que han hecho pagos y el nombre de sus representantes junto con la ciudad de la oficina a la que pertenece el representante.
+SELECT cliente.nombre_cliente  , empleado.nombre as nombreEmpleado, empleado.apellido1 as primerApellidoEmpleado ,
+empleado.apellido2 as segundoApellidoEmpleado, oficina.ciudad  FROM pago
+INNER JOIN 
+	cliente ON pago.codigo_cliente = cliente.codigo_cliente
+INNER JOIN 
+	empleado ON cliente.codigo_empleado_rep_ventas  = empleado.codigo_empleado 
+INNER JOIN 
+	oficina ON empleado.codigo_oficina = oficina.codigo_oficina ;
 
+-- Devuelve el nombre de los clientes que  hayan hecho pagos y el nombre de sus representantes junto con la ciudad de la oficina a la que pertenece el representante.
+-- Lista la dirección de las oficinas que tengan clientes en Fuenlabrada.
+
+-- Devuelve el nombre de los clientes que hayan hecho pagos y el nombre de sus representantes junto con la ciudad de la oficina a la que pertenece el representante.
+-- Lista la dirección de las oficinas que tengan clientes en Fuenlabrada.
+
+SELECT 
+    c.nombre_cliente,
+    e.nombre AS nombreEmpleado, 
+    e.apellido1 AS primerApellidoEmpleado,
+    e.apellido2 AS segundoApellidoEmpleado,
+    o.ciudad AS ciudadOficina,
+    o.linea_direccion1  AS direccionOficina
+FROM 
+    pago AS p
+INNER JOIN 
+    cliente AS c ON p.codigo_cliente = c.codigo_cliente
+INNER JOIN 
+    empleado AS e ON c.codigo_empleado_rep_ventas = e.codigo_empleado
+INNER JOIN 
+    oficina AS o ON e.codigo_oficina = o.codigo_oficina
+WHERE 
+    c.ciudad = "Fuenlabrada";
+
+
+-- Devuelve un listado con el nombre de los empleados junto con el nombre de sus jefes.
+SELECT 
+    e1.nombre AS nombre_empleado,
+    e2.nombre AS nombre_jefe
+FROM 
+    empleado AS e1
+LEFT JOIN 
+    empleado AS e2 ON e1.codigo_jefe = e2.codigo_empleado;
+
+-- Devuelve un listado que muestre el nombre de cada empleados, el nombre de su jefe y el nombre del jefe de sus jefe.
+
+SELECT 
+    e1.nombre AS nombre_empleado,
+    e2.nombre AS nombre_jefe,
+    e3.nombre AS nombre_jefe_del_jefe
+FROM 
+    empleado AS e1
+LEFT JOIN 
+    empleado AS e2 ON e1.codigo_jefe = e2.codigo_empleado
+LEFT JOIN
+	empleado AS e3 ON e2.codigo_jefe = e3.codigo_empleado ;
+
+-- Devuelve el nombre de los clientes a los que no se les ha entregado a tiempo un pedido.
+
+SELECT 
+    c.nombre_cliente
+FROM 
+    cliente AS c
+INNER JOIN 
+    pedido AS p ON c.codigo_cliente = p.codigo_cliente
+WHERE 
+    p.fecha_entrega > p.fecha_esperada OR p.fecha_entrega IS NULL;
+
+-- Devuelve un listado de las diferentes gamas de producto que ha comprado cada cliente.
+
+SELECT 
+    c.nombre_cliente,
+    gp.gama
+FROM 
+    cliente AS c
+INNER JOIN 
+    pedido AS p ON c.codigo_cliente = p.codigo_cliente
+INNER JOIN 
+    detalle_pedido AS dp ON p.codigo_pedido = dp.codigo_pedido
+INNER JOIN 
+    producto AS pr ON dp.codigo_producto = pr.codigo_producto
+INNER JOIN 
+    gama_producto AS gp ON pr.gama = gp.gama
+GROUP BY 
+    c.nombre_cliente, gp.gama;
+   
 
 -- Creado por Oscar Fernando Arismendi C.C. 1*******32
 
