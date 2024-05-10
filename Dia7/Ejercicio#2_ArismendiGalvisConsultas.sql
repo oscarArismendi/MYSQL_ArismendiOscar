@@ -55,17 +55,29 @@ WHERE
 	profesor.id IS NULL;
 
 
-
 -- 4) Devuelve un listado con los profesores que no imparten ninguna asignatura.
+
+SELECT
+	profesor.*
+FROM 
+	asignatura
+RIGHT JOIN
+	profesor on profesor.id = asignatura.id_profesor 
+WHERE 
+	asignatura.id_profesor  IS NULL;
 
 SELECT * FROM asignatura; -- la respuesta es todos excepto 3 y 14
 
-SELECT  DISTINCT 
+/* 
+ Me quedo mal  porque no supe juntar las tablas con left join o right join
+ SELECT  DISTINCT 
 	profesor.id  
 FROM 
 	profesor
 INNER JOIN
 	asignatura ON (asignatura.id_profesor != profesor.id) AND (asignatura.id_profesor IS NOT NULL);
+	
+*/
 
 -- 5) Devuelve un listado con las asignaturas que no tienen un profesor asignado.
 
@@ -82,13 +94,13 @@ WHERE
 SELECT * FROM alumno_se_matricula_asignatura;
 
 -- 7) Devuelve el número total de alumnas que hay.
--- RTA: como se puede ver en la tabla solo se tienen 9 alumnas
+-- RTA: como se puede ver en la tabla solo se tienen 3 alumnas
 SELECT 
-	*
+	COUNT(*) AS "numero total de alumnas"
 FROM 
 	alumno
 WHERE 
-	alumno.sexo = "H";
+	alumno.sexo = "M";
 
 
 
