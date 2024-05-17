@@ -59,8 +59,20 @@ BEGIN
    		   FROM productos WHERE nombre = nombre_producto LIMIT 1;
     RETURN CONCAT('id: ',producto_id,' nombre: ', producto_nombre, ' precio: ', producto_precio);
 END;
-DROP FUNCTION buscarProducto;
 SELECT buscarProducto("Cary") AS datos_producto;
+DROP FUNCTION buscarProducto;
+CREATE PROCEDURE buscarProductoP(
+	IN nombre_producto VARCHAR(100),
+	OUT producto_precio decimal(10,2),
+	OUT producto_nombre VARCHAR(100),
+	OUT producto_id int)
+BEGIN
+    SELECT nombre,id,precio INTO producto_nombre, producto_id,producto_precio
+   		   FROM productos WHERE nombre = nombre_producto LIMIT 1;
+END;
+CALL buscarProductoP("Cary",@producto_precio,@producto_nombre,@producto_id);
+SELECT @producto_precio,@producto_nombre,@producto_id;
+
 
 
 -- Creado por Oscar Fernando Arismendi C.C. 1*******32
